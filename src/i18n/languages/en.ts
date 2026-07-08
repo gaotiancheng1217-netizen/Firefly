@@ -286,24 +286,6 @@ export const en: Translation = {
 	[Key.postListLayoutList]: "List",
 	[Key.postListLayoutGrid]: "Grid",
 
-	// Sponsor Page
-	[Key.sponsor]: "Sponsor",
-	[Key.sponsorTitle]: "Support Me",
-	[Key.sponsorDescription]:
-		"If my content has been helpful to you, welcome to sponsor me through the following methods. Your support is the driving force for my continued creation!",
-	[Key.sponsorMethods]: "Payment Methods",
-	[Key.sponsorList]: "Sponsors",
-	[Key.sponsorEmpty]: "No sponsors yet",
-	[Key.sponsorAmount]: "Amount",
-	[Key.sponsorDate]: "Date",
-	[Key.sponsorMessage]: "Message",
-	[Key.sponsorAnonymous]: "Anonymous",
-	[Key.scanToSponsor]: "Scan to Sponsor",
-	[Key.sponsorGoTo]: "Go to Sponsor",
-	[Key.sponsorButton]: "Support & Share",
-	[Key.sponsorButtonText]:
-		"If this article helped you, please share or support!",
-
 	[Key.shareOnSocial]: "Share Article",
 	[Key.shareOnSocialDescription]:
 		"If this article helped you, please share it with others!",

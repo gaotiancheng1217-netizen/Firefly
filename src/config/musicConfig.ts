@@ -11,7 +11,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	showInNavbar: true,
 
 	// 使用方式："meting" 使用 Meting API，"local" 使用本地音乐列表
-	mode: "meting",
+	mode: "local",
 
 	// 默认音量 (0-1)
 	volume: 0.7,
@@ -32,7 +32,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 		// 类型：song=单曲, playlist=歌单, album=专辑, search=搜索, artist=艺术家
 		type: "playlist",
 		// 歌单/专辑/单曲 ID 或搜索关键词
-		id: "10046455237",
+		id: "730606090",
 		// 认证 token（可选）
 		auth: "",
 		// 备用 API 配置（当主 API 失败时使用）
@@ -50,10 +50,52 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	local: {
 		playlist: [
 			{
-				name: "使一颗心免于哀伤",
-				artist: "知更鸟 / HOYO-MiX / Chevy",
-				url: "/assets/music/使一颗心免于哀伤-哼唱.mp3",
-				cover: "/assets/music/cover/109951169585655912.webp",
+				name: "久遠寺有珠",
+				artist: "深澤秀行",
+				url: "/assets/music/深澤秀行 - 久遠寺有珠.flac",
+				cover: "/assets/music/cover/music_cover.webp",
+				lrc: "",
+			},
+			{
+				name: "久遠寺邸で朝食を",
+				artist: "深澤秀行",
+				url: "/assets/music/深澤秀行 - 久遠寺邸で朝食を.flac",
+				cover: "/assets/music/cover/music_cover.webp",
+				lrc: "",
+			},
+			{
+				name: "午後の眠り",
+				artist: "深澤秀行",
+				url: "/assets/music/深澤秀行 - 午後の眠り.flac",
+				cover: "/assets/music/cover/music_cover.webp",
+				lrc: "",
+			},
+			{
+				name: "蒼崎青子",
+				artist: "深澤秀行",
+				url: "/assets/music/深澤秀行 - 蒼崎青子.flac",
+				cover: "/assets/music/cover/music_cover.webp",
+				lrc: "",
+			},
+			{
+				name: "鍵盤は躍る",
+				artist: "深澤秀行",
+				url: "/assets/music/深澤秀行 - 鍵盤は躍る.flac",
+				cover: "/assets/music/cover/music_cover.webp",
+				lrc: "",
+			},
+			{
+				name: "静希草十郎",
+				artist: "深澤秀行",
+				url: "/assets/music/深澤秀行 - 静希草十郎.flac",
+				cover: "/assets/music/cover/music_cover.webp",
+				lrc: "",
+			},
+			{
+				name: "魔法使いの夜～メインテーマ",
+				artist: "深澤秀行",
+				url: "/assets/music/深澤秀行 - 魔法使いの夜～メインテーマ.flac",
+				cover: "/assets/music/cover/music_cover.webp",
 				lrc: "",
 			},
 		],
