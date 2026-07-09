@@ -1,7 +1,16 @@
 {
-  "name": "firefly",
+  "name": "tiancheng-blog",
   "type": "module",
   "version": "6.13.5",
+  "description": "TianCheng's personal blog, customized from the Firefly Astro theme.",
+  "homepage": "https://tiancheng-blog.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gaotiancheng1217-netizen/tiancheng-blog.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gaotiancheng1217-netizen/tiancheng-blog/issues"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

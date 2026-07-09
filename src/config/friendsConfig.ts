@@ -1,58 +1,46 @@
 import type { FriendLink, FriendsPageConfig } from "../types/friendsConfig";
 
-// 可以在src/content/spec/friends.md中编写友链页面下方的自定义内容
-
 // 友链页面配置
 export const friendsPageConfig: FriendsPageConfig = {
-	// 页面标题，如果留空则使用 i18n 中的翻译
-	title: "",
-
-	// 页面描述文本，如果留空则使用 i18n 中的翻译
-	description: "",
-
-	// 是否显示底部自定义内容（friends.mdx 中的内容）
+	title: "友链与参考",
+	description: "这里整理一些友链、参考项目和技术资源。",
 	showCustomContent: true,
-
-	// 是否显示评论区，需要先在commentConfig.ts启用评论系统
 	showComment: true,
-
-	// 是否开启随机排序配置，如果开启，就会忽略权重，构建时进行一次随机排序
 	randomizeSort: false,
 };
 
 // 友链配置
 export const friendsConfig: FriendLink[] = [
 	{
-		title: "夏夜流萤",
-		imgurl:
-			"https://weavatar.com/avatar/d252655d40d6874417a720bad0a6c5f77f8f6a1fd2f882f8f338402dc37e4190?s=640",
-		desc: "飞萤之火自无梦的长夜亮起，绽放在终竟的明天。",
-		siteurl: "https://blog.cuteleaf.cn",
+		title: "TianCheng Blog",
+		imgurl: "/assets/images/avatar2.avif",
+		desc: "TianCheng 的个人博客，记录学习、技术和实践。",
+		siteurl: "https://tiancheng-blog.com",
 		tags: ["Blog"],
-		weight: 10, // 权重，数字越大排序越靠前
-		enabled: true, // 是否启用
+		weight: 10,
+		enabled: true,
 	},
 	{
-		title: "Firefly Docs",
+		title: "Firefly",
 		imgurl: "https://docs-firefly.cuteleaf.cn/logo.png",
-		desc: "Firefly主题模板文档",
-		siteurl: "https://docs-firefly.cuteleaf.cn",
-		tags: ["Docs"],
+		desc: "本博客使用的 Astro 博客主题模板。",
+		siteurl: "https://github.com/CuteLeaf/Firefly",
+		tags: ["Theme"],
 		weight: 9,
 		enabled: true,
 	},
 	{
 		title: "Astro",
 		imgurl: "https://avatars.githubusercontent.com/u/44914786?v=4&s=640",
-		desc: "The web framework for content-driven websites. ⭐️ Star to support our work!",
-		siteurl: "https://github.com/withastro/astro",
+		desc: "用于构建内容驱动网站的现代 Web 框架。",
+		siteurl: "https://astro.build",
 		tags: ["Framework"],
 		weight: 8,
 		enabled: true,
 	},
 ];
 
-// 获取启用的友链并进行排序
+// 获取启用的友链并排序
 export const getEnabledFriends = (): FriendLink[] => {
 	const friends = friendsConfig.filter((friend) => friend.enabled);
 
