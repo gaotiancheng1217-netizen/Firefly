@@ -39,3 +39,4 @@ package/
 .obsidian/
 
 echo "*.zip"
+firefly-ver*.zip
