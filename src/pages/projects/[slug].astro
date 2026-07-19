@@ -45,6 +45,17 @@ const { project } = Astro.props as { project: ProjectItem };
 					<p class="mt-5 max-w-4xl text-base leading-8 text-neutral-600 dark:text-neutral-300">
 						{project.description}
 					</p>
+					{project.repositoryUrl && (
+						<a
+							href={project.repositoryUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="mt-5 inline-flex items-center gap-2 rounded-xl bg-(--primary) px-4 py-2 font-medium text-white transition hover:opacity-90"
+						>
+							<Icon name="fa7-brands:github" />
+							查看 GitHub 仓库
+						</a>
+					)}
 				</div>
 
 				<div class="w-full shrink-0 rounded-3xl bg-(--btn-regular-bg) p-5 lg:w-64">

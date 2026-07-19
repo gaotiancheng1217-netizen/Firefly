@@ -10,6 +10,7 @@ export type ProjectItem = {
 	status: string;
 	progress: number;
 	updatedAt: string;
+	repositoryUrl?: string;
 	description: string;
 	highlights: string[];
 	completedStages: ProjectStage[];
@@ -25,6 +26,8 @@ export const projects: ProjectItem[] = [
 		status: "进行中",
 		progress: 45,
 		updatedAt: "2026-07-19",
+		repositoryUrl:
+			"https://github.com/gaotiancheng1217-netizen/server-sentinel",
 		description:
 			"这是一个面向 Linux 运维 / SRE 入门方向的实践项目，用 Shell、Python、Nginx 日志分析、定时任务和自动化测试，逐步构建可复用的服务器巡检工具。",
 		highlights: [

@@ -22,10 +22,7 @@ import MainGridLayout from "@/layouts/MainGridLayout.astro";
 
 	<section class="mt-6 grid gap-5">
 		{projects.map((project) => (
-			<a
-				href={`/projects/${project.slug}/`}
-				class="card-base group overflow-hidden rounded-(--radius-large) transition hover:-translate-y-1 hover:shadow-lg"
-			>
+			<article class="card-base group overflow-hidden rounded-(--radius-large) transition hover:-translate-y-1 hover:shadow-lg">
 				<div class="relative px-7 py-7 sm:px-9 sm:py-8">
 					<div class="absolute top-0 left-0 h-full w-1.5 bg-(--primary)"></div>
 
@@ -78,12 +75,28 @@ import MainGridLayout from "@/layouts/MainGridLayout.astro";
 						))}
 					</div>
 
-					<div class="mt-6 flex items-center gap-2 font-medium text-(--primary)">
-						查看项目详情
-						<Icon name="material-symbols:arrow-forward-rounded" class="transition group-hover:translate-x-1" />
+					<div class="mt-6 flex flex-wrap items-center gap-3">
+						<a
+							href={`/projects/${project.slug}/`}
+							class="inline-flex items-center gap-2 rounded-xl bg-(--primary) px-4 py-2 font-medium text-white transition hover:opacity-90"
+						>
+							查看项目详情
+							<Icon name="material-symbols:arrow-forward-rounded" class="transition group-hover:translate-x-1" />
+						</a>
+						{project.repositoryUrl && (
+							<a
+								href={project.repositoryUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex items-center gap-2 rounded-xl bg-(--btn-regular-bg) px-4 py-2 font-medium text-neutral-600 transition hover:text-(--primary) dark:text-neutral-300"
+							>
+								<Icon name="fa7-brands:github" />
+								GitHub 仓库
+							</a>
+						)}
 					</div>
 				</div>
-			</a>
+			</article>
 		))}
 	</section>
 </MainGridLayout>
