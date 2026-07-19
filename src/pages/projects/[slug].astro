@@ -77,6 +77,35 @@ const { project } = Astro.props as { project: ProjectItem };
 		</div>
 	</section>
 
+	<section class="mt-6 card-base rounded-(--radius-large) p-7 sm:p-9">
+		<div class="space-y-12 text-[1.05rem] leading-9 text-neutral-700 dark:text-neutral-300">
+			<div>
+				<h2 class="mb-6 text-2xl font-bold text-neutral-900 sm:text-3xl dark:text-neutral-50">
+					项目描述
+				</h2>
+				<p>{project.projectDescription}</p>
+			</div>
+
+			<div>
+				<h2 class="mb-6 text-2xl font-bold text-neutral-900 sm:text-3xl dark:text-neutral-50">
+					主要工作
+				</h2>
+				<ul class="list-disc space-y-3 pl-6 marker:text-neutral-400">
+					{project.mainWork.map((item) => (
+						<li>{item}</li>
+					))}
+				</ul>
+			</div>
+
+			<div>
+				<h2 class="mb-6 text-2xl font-bold text-neutral-900 sm:text-3xl dark:text-neutral-50">
+					项目成果
+				</h2>
+				<p>{project.projectResult}</p>
+			</div>
+		</div>
+	</section>
+
 	<section class="mt-6 grid gap-5 lg:grid-cols-2">
 		<div class="card-base rounded-(--radius-large) p-7">
 			<h2 class="mb-5 flex items-center gap-2 text-2xl font-bold">

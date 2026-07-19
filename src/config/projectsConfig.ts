@@ -12,6 +12,9 @@ export type ProjectItem = {
 	updatedAt: string;
 	repositoryUrl?: string;
 	description: string;
+	projectDescription: string;
+	mainWork: string[];
+	projectResult: string;
 	highlights: string[];
 	completedStages: ProjectStage[];
 	nextStages: string[];
@@ -30,6 +33,18 @@ export const projects: ProjectItem[] = [
 			"https://github.com/gaotiancheng1217-netizen/server-sentinel",
 		description:
 			"这是一个面向 Linux 运维 / SRE 入门方向的实践项目，用 Shell、Python、Nginx 日志分析、定时任务和自动化测试，逐步构建可复用的服务器巡检工具。",
+		projectDescription:
+			"基于 Shell、Python 与 Linux 运维工具链构建一套轻量级服务器巡检与日志分析工具，覆盖网站可用性检查、Nginx 服务状态检查、系统资源巡检、Nginx access.log 分析、异常请求识别和自动化测试流程，为后续接入巡检报告、Docker 化部署和 AI 日志分析打基础。",
+		mainWork: [
+			"编写 Shell 健康检查脚本，检查网站 HTTP 状态码、Nginx 服务状态、磁盘使用率和内存使用率。",
+			"配置 crontab 定时任务，实现巡检脚本按固定周期自动执行，并将结果写入日志文件。",
+			"编写 Nginx access.log 分析脚本，统计访问总量、状态码分布、Top IP、404 高频路径和 Referer 来源。",
+			"识别 .php、wp-content、admin、.env、.git 等常见扫描特征，用于区分正常访问、失效链接和自动化扫描请求。",
+			"准备固定样本日志和自动测试脚本，验证日志分析结果是否符合预期，避免后续修改破坏统计逻辑。",
+			"接入 GitHub Actions，在每次 push 或 Pull Request 时自动执行 Shell 语法检查和日志分析测试。",
+		],
+		projectResult:
+			"完成一套可持续迭代的服务器巡检与日志分析工具雏形，掌握 Shell 脚本、Nginx 日志排查、定时任务、自动化测试和 CI 基础流程，并形成后续扩展 Python 报告生成、Docker 部署和 AI 异常分析的项目结构。",
 		highlights: [
 			"Shell 健康检查脚本已完成基础版本",
 			"Nginx access.log 分析脚本已完成第一版",
