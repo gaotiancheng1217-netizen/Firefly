@@ -146,6 +146,274 @@ fi
 
 `&&` 表示“并且”，只有两个条件都成立时，整体条件才成立。
 
+## 字符串判断与数字判断
+
+Shell 中常见判断可以分为字符串判断和数字判断。
+
+字符串判断常用于比较状态码、服务状态、参数内容：
+
+```bash
+if [ "$NGINX_STATUS" = "active" ]; then
+  echo "Nginx 正常"
+fi
+```
+
+常见字符串判断：
+
+| 写法 | 含义 |
+|---|---|
+| `=` | 字符串相等 |
+| `!=` | 字符串不相等 |
+| `-z "$VAR"` | 字符串为空 |
+| `-n "$VAR"` | 字符串不为空 |
+
+示例：
+
+```bash
+if [ -z "$URL" ]; then
+  echo "URL 不能为空"
+  exit 1
+fi
+```
+
+数字判断常用于比较磁盘使用率、内存使用率、请求数量等：
+
+```bash
+if [ "$DISK_USAGE" -gt 80 ]; then
+  echo "磁盘使用率过高"
+fi
+```
+
+常见数字比较符号：
+
+| 写法 | 含义 |
+|---|---|
+| `-lt` | 小于 |
+| `-le` | 小于等于 |
+| `-gt` | 大于 |
+| `-ge` | 大于等于 |
+| `-eq` | 等于 |
+| `-ne` | 不等于 |
+
+需要注意，字符串比较和数字比较不要混用。例如：
+
+```bash
+[ "$STATUS_CODE" = "200" ]
+```
+
+适合比较 HTTP 状态码字符串。
+
+```bash
+[ "$DISK_USAGE" -gt 80 ]
+```
+
+适合比较磁盘使用率数字。
+
+## 脚本参数
+
+Shell 脚本可以从命令行接收参数。
+
+例如执行脚本时传入一个 URL：
+
+```bash
+./health-check.sh https://tiancheng-blog.com
+```
+
+脚本中可以通过 `$1` 读取第一个参数：
+
+```bash
+URL="$1"
+```
+
+常见参数变量：
+
+| 写法 | 含义 |
+|---|---|
+| `$0` | 当前脚本名称 |
+| `$1` | 第一个参数 |
+| `$2` | 第二个参数 |
+| `$#` | 参数个数 |
+| `$@` | 所有参数 |
+
+示例：
+
+```bash
+#!/bin/bash
+
+URL="$1"
+
+if [ -z "$URL" ]; then
+  echo "Usage: $0 <url>"
+  exit 1
+fi
+
+STATUS_CODE=$(curl -o /dev/null -s -w "%{http_code}" "$URL")
+echo "$URL status=$STATUS_CODE"
+```
+
+这样脚本就不再把检查目标写死，而是可以检查不同网站。
+
+## 函数
+
+当脚本逻辑变多时，可以使用函数把不同检查项拆开。
+
+函数格式：
+
+```bash
+function_name() {
+  command
+}
+```
+
+示例：
+
+```bash
+check_site() {
+  STATUS_CODE=$(curl -o /dev/null -s -w "%{http_code}" "$URL")
+
+  if [ "$STATUS_CODE" = "200" ]; then
+    echo "网站正常"
+    return 0
+  else
+    echo "网站异常：$STATUS_CODE"
+    return 1
+  fi
+}
+
+check_site
+```
+
+这里的 `check_site` 是函数名，最后一行 `check_site` 表示调用函数。
+
+函数可以让脚本结构更清楚。例如：
+
+```text
+check_site
+check_nginx
+check_disk
+check_memory
+write_summary
+```
+
+每个函数只负责一个检查项，后续修改时不容易影响其他部分。
+
+## 退出码、return 与 exit
+
+Linux 命令执行结束后，都会产生一个退出码。
+
+通常：
+
+```text
+0 表示成功
+非 0 表示失败
+```
+
+查看上一条命令的退出码：
+
+```bash
+echo $?
+```
+
+脚本中常用 `exit` 表示整个脚本的结束状态：
+
+```bash
+exit 0
+```
+
+表示脚本正常结束。
+
+```bash
+exit 1
+```
+
+表示脚本异常结束。
+
+函数中常用 `return` 返回函数执行结果：
+
+```bash
+check_nginx() {
+  NGINX_STATUS=$(systemctl is-active nginx)
+
+  if [ "$NGINX_STATUS" = "active" ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+```
+
+`return` 和 `exit` 的区别：
+
+| 写法 | 作用范围 |
+|---|---|
+| `return` | 结束当前函数 |
+| `exit` | 结束整个脚本 |
+
+在健康检查脚本中，退出码很重要。因为 `cron`、GitHub Actions、监控系统都可以根据退出码判断脚本是否执行成功。
+
+## for 循环
+
+`for` 循环适合遍历一组固定对象。
+
+例如检查多个网站：
+
+```bash
+for URL in https://tiancheng-blog.com https://example.com; do
+  STATUS_CODE=$(curl -o /dev/null -s -w "%{http_code}" "$URL")
+  echo "$URL status=$STATUS_CODE"
+done
+```
+
+基本结构：
+
+```bash
+for ITEM in list; do
+  command
+done
+```
+
+也可以遍历多个服务：
+
+```bash
+for SERVICE in nginx ssh cron; do
+  STATUS=$(systemctl is-active "$SERVICE")
+  echo "$SERVICE: $STATUS"
+done
+```
+
+## while 循环
+
+`while` 循环适合在条件成立时反复执行。
+
+示例：
+
+```bash
+COUNT=1
+
+while [ "$COUNT" -le 5 ]; do
+  echo "第 $COUNT 次检查"
+  COUNT=$((COUNT + 1))
+done
+```
+
+其中：
+
+```bash
+$((COUNT + 1))
+```
+
+表示进行数学计算。
+
+`while` 也常用于逐行读取文件：
+
+```bash
+while read -r LINE; do
+  echo "$LINE"
+done < access.log
+```
+
+这种写法可以逐行处理日志文件。
+
 ## HTTP 状态码检查
 
 网站是否可用，最直接的检查方式是访问网站并读取 HTTP 状态码。
@@ -323,6 +591,28 @@ echo "内容" >> "$LOG_FILE"
 
 巡检日志通常使用追加写入，避免覆盖历史记录。
 
+如果希望把错误输出也写入日志，可以使用：
+
+```bash
+command >> "$LOG_FILE" 2>&1
+```
+
+其中：
+
+| 写法 | 含义 |
+|---|---|
+| `1` | 标准输出 |
+| `2` | 标准错误 |
+| `2>&1` | 把错误输出合并到标准输出 |
+
+例如：
+
+```bash
+systemctl status nginx >> "$LOG_FILE" 2>&1
+```
+
+表示无论命令输出正常信息还是错误信息，都追加写入同一个日志文件。
+
 建议区分普通日志和错误日志：
 
 ```bash
@@ -374,6 +664,18 @@ fi
 | 磁盘空间 | 根目录使用率小于 `80%` |
 | 内存使用 | 内存使用率小于 `80%` |
 
+如果希望让外部工具识别脚本结果，可以在最后加入退出码：
+
+```bash
+if [ "$STATUS_CODE" = "200" ] && [ "$NGINX_STATUS" = "active" ] && [ "$DISK_USAGE" -lt 80 ] && [ "$MEM_USAGE" -lt 80 ]; then
+  exit 0
+else
+  exit 1
+fi
+```
+
+这样脚本不只是写日志，还能把成功或失败状态返回给调用方。
+
 ## crontab 定时执行
 
 手动运行脚本只能检查一次。要实现自动巡检，可以使用 `crontab`。
@@ -421,6 +723,49 @@ tail -f /home/ubuntu/health-check.log
 ```
 
 如果每 5 分钟出现一条新记录，说明定时任务已经正常运行。
+
+在 `crontab` 中建议把输出重定向到日志文件：
+
+```text
+*/5 * * * * /home/ubuntu/health-check.sh >> /home/ubuntu/health-check.log 2>&1
+```
+
+这样即使脚本在定时执行时出现错误，也能在日志中找到记录。
+
+## 脚本调试
+
+脚本执行结果不符合预期时，可以使用调试方式运行。
+
+显示每一步实际执行的命令：
+
+```bash
+bash -x health-check.sh
+```
+
+也可以在脚本开头加入：
+
+```bash
+set -x
+```
+
+表示开启调试输出。
+
+如果希望脚本在某条命令失败时立即停止，可以使用：
+
+```bash
+set -e
+```
+
+常见调试方式：
+
+| 写法 | 作用 |
+|---|---|
+| `bash -x script.sh` | 临时查看脚本执行过程 |
+| `set -x` | 在脚本中开启命令追踪 |
+| `set +x` | 关闭命令追踪 |
+| `set -e` | 命令失败时立即退出脚本 |
+
+调试时可以先使用 `bash -x`，确认变量值和命令执行顺序是否符合预期。
 
 ## 常见巡检指标
 
