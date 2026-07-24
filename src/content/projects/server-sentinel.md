@@ -2,11 +2,11 @@
 name: "ServerSentinel"
 subtitle: "轻量级服务器巡检与 Nginx 日志分析工具"
 status: "进行中"
-progress: 82
-updated: 2026-07-23
+progress: 95
+updated: 2026-07-24
 repositoryUrl: "https://github.com/gaotiancheng1217-netizen/server-sentinel"
 description: "基于 Shell、Python、Nginx 日志分析、定时任务、Docker 和自动化测试构建的轻量级服务器巡检、日报生成与异常结构化分析工具。"
-projectDescription: "基于 Shell、Python、Docker 与 Linux 运维工具链构建一套轻量级服务器巡检与日志分析工具，覆盖网站可用性检查、Nginx 服务状态检查、系统资源巡检、Nginx access.log 分析、异常请求识别、Markdown 巡检日报生成、容器化运行和结构化异常提取，为后续接入 AI 日志分析助手准备稳定的数据层。"
+projectDescription: "基于 Shell、Python、Docker 与 Linux 运维工具链构建一套轻量级服务器巡检与日志分析工具，覆盖网站可用性检查、Nginx 服务状态检查、系统资源巡检、Nginx access.log 分析、异常请求识别、Markdown 巡检日报生成、容器化运行、结构化异常提取和 AI 辅助日志分析。"
 mainWork:
   - "编写 Shell 健康检查脚本，检查网站 HTTP 状态码、Nginx 服务状态、磁盘使用率和内存使用率。"
   - "配置 crontab 定时任务，实现巡检脚本按固定周期自动执行，并将结果写入日志文件。"
@@ -18,13 +18,18 @@ mainWork:
   - "编写 Dockerfile 与 compose.yaml，将 Python 日报生成器封装为一次性运行的容器任务，并通过挂载 logs 与 reports 目录读写运行数据。"
   - "补充 Docker 自动测试，验证镜像构建、容器运行、报告生成、挂载目录和时区配置是否符合预期。"
   - "编写结构化异常提取脚本，从健康检查日志中提取 WARNING / ERROR，按磁盘、内存、服务状态、可用性和未知类型进行分类，并输出 provider-neutral JSON。"
-projectResult: "完成一套可持续迭代的服务器巡检、Nginx 日志分析、Markdown 日报生成、Docker 化运行与结构化异常提取工具雏形。当前项目已经具备 Shell 巡检、日志分析、Python 报告、容器化任务、固定样本测试和 GitHub Actions 自动验证能力，并为后续 AI 日志分析预留了稳定的 JSON 数据接口。"
+  - "设计 AI 日志分析 Prompt 与响应 JSON Schema，限制输出结构、风险等级、异常类别、置信度和人工复核字段。"
+  - "接入 DeepSeek API，基于结构化异常 JSON 生成符合 Schema 的日志分析结果。"
+  - "编写 AI Markdown 报告渲染脚本，将通过验证的 AI 分析结果转换为人工可读的排查报告。"
+projectResult: "完成一套可持续迭代的服务器巡检、Nginx 日志分析、Markdown 日报生成、Docker 化运行、结构化异常提取与 AI 辅助日志分析工具雏形。当前项目已经具备 Shell 巡检、日志分析、Python 报告、容器化任务、固定样本测试、GitHub Actions 自动验证、DeepSeek API 调用、JSON Schema 响应校验和 AI Markdown 报告生成能力。"
 highlights:
   - "Shell 健康检查脚本已完成基础版本"
   - "Nginx access.log 分析脚本已完成第一版"
   - "Python Markdown 日报生成器已完成第一版"
   - "Docker 化报告生成器已完成基础版本"
   - "结构化异常提取脚本已完成第一版"
+  - "DeepSeek AI 日志分析链路已完成基础版本"
+  - "AI 分析结果 JSON Schema 校验与 Markdown 渲染已完成基础版本"
   - "已加入固定样本日志与 Shell / Python 自动测试"
   - "已接入 GitHub Actions 自动执行 Shell、Python 与 Docker 检查"
 completedStages:
@@ -62,19 +67,22 @@ completedStages:
       - "支持通过 Docker Compose 生成当天或指定日期的巡检日报"
       - "编写 tests/test-docker.sh 验证镜像构建和容器报告生成结果"
       - "将 Docker Compose 配置验证和 Docker 测试加入 GitHub Actions"
-  - name: "v5：AI 日志分析数据准备"
+  - name: "v5：AI 日志分析助手"
     items:
       - "编写 src/extract_anomalies.py，从健康检查日志中提取 WARNING 和 ERROR"
       - "按照 disk、memory、service、availability、unknown 对异常进行基础分类"
       - "生成 reports/anomalies-YYYY-MM-DD.json 结构化异常文件"
-      - "输出 schema_version、report_date、summary、anomalies 等字段，为后续 AI 分析提供稳定输入"
-      - "补充单元测试，覆盖异常分类、汇总字段、JSON 数据契约、无异常场景和未知异常类型"
-      - "当前版本不向外部 AI 服务发送真实数据，先完成本地数据整理和接口边界设计"
+      - "设计 prompts/analyze-anomalies.md，约束 AI 只基于日志证据给出排查建议"
+      - "编写 config/ai-analysis-response.schema.json，定义 AI 响应的数据契约"
+      - "编写 src/validate_ai_response.py，校验 AI 返回结果是否符合 JSON Schema"
+      - "编写 src/analyze_with_ai.py，通过 OpenAI-compatible 接口调用 DeepSeek API"
+      - "编写 src/render_ai_report.py，将 AI 分析 JSON 渲染为 Markdown 报告"
+      - "补充单元测试，覆盖异常分类、响应契约、API 模拟响应和 AI 报告渲染"
 nextStages:
-  - "设计 AI Prompt 与响应 JSON Schema"
-  - "使用本地模拟响应验证 AI 分析流程"
-  - "接入可替换的 AI API，基于结构化异常生成排障建议"
-  - "整理 README、示例报告和项目演示说明"
+  - "整理 README、示例输入、示例输出和项目演示说明"
+  - "增加敏感信息脱敏流程，避免真实主机名、IP、路径和内部服务信息进入外部 API"
+  - "抽象 Provider 配置，在保持输入输出 Schema 不变的前提下支持替换 AI 服务"
+  - "补充异常通知能力，将关键风险通过邮件、企业微信或 Telegram 发送给维护者"
 skills:
   - "Linux"
   - "Shell"
@@ -86,11 +94,14 @@ skills:
   - "Docker"
   - "Docker Compose"
   - "JSON"
+  - "JSON Schema"
+  - "Prompt Engineering"
+  - "DeepSeek API"
   - "unittest"
 ---
 
-ServerSentinel 是一套轻量级服务器巡检与 Nginx 日志分析工具，主要用于检查网站可用性、服务运行状态、系统资源使用情况，并对 Nginx 访问日志中的异常请求进行基础识别。
+ServerSentinel 是一套轻量级服务器巡检与 Nginx 日志分析工具，主要用于检查网站可用性、服务运行状态、系统资源使用情况，并对 Nginx 访问日志和健康检查日志中的异常现象进行基础识别。
 
-项目由 Shell 巡检脚本、Nginx 日志分析脚本、Python 报告生成器、Docker 运行环境和自动化测试流程组成。Shell 脚本负责采集运行状态，日志分析脚本负责提取访问统计与异常特征，Python 模块负责生成 Markdown 日报与结构化 JSON 数据。
+项目由 Shell 巡检脚本、Nginx 日志分析脚本、Python 报告生成器、Docker 运行环境、AI 分析模块和自动化测试流程组成。Shell 脚本负责采集运行状态，日志分析脚本负责提取访问统计与异常特征，Python 模块负责生成 Markdown 日报、结构化 JSON 数据和 AI 分析报告。
 
-当前版本已覆盖 HTTP 状态检查、Nginx 服务检查、磁盘与内存巡检、访问日志统计、扫描请求识别、巡检日报生成、容器化运行和 GitHub Actions 自动验证等功能。
+当前版本已覆盖 HTTP 状态检查、Nginx 服务检查、磁盘与内存巡检、访问日志统计、扫描请求识别、巡检日报生成、容器化运行、DeepSeek AI 日志分析、JSON Schema 响应校验和 GitHub Actions 自动验证等功能。
